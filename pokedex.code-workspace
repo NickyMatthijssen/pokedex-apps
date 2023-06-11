@@ -1,0 +1,29 @@
+{
+  "folders": [
+    {
+      "path": "svelte-dex"
+    },
+    {
+      "path": "pokeapi"
+    },
+    {
+      "path": "next-dex"
+    },
+    {
+      "path": "next-gql-dex"
+    },
+    {
+      "path": "astro-dex"
+    },
+    {
+      "path": "angular-dex"
+    },
+    {
+      "path": "nuxt-dex"
+    },
+    {
+      "path": "library"
+    }
+  ],
+  "settings": {}
+}

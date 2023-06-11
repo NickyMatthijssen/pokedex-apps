@@ -1,0 +1,64 @@
+---
+import Details from "../components/Details"
+import Variants from "../components/Variants"
+import Header from "../components/Header"
+import Gallery from "../components/Gallery"
+import Stats from "../components/Stats"
+import Moves from "../components/Moves"
+import { variantStore } from "../stores/variantStore";
+
+export async function getStaticPaths() {
+    const species = await import.meta.glob('../../../pokeapi/pokemon/*.json');
+    const params = [];
+
+    for (const key in species) {
+        const single = await species[key]();
+
+        params.push({
+            params: { pokemon: single.name },
+            props: { species: single }
+        })
+    }
+
+    return params;
+}
+
+const { species } = Astro.props;
+
+variantStore.set(species.varieties[0]);
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<!-- <meta name="generator" content={Astro.generator} /> -->
+		<title>{species.name}</title>
+	</head>
+	<body>
+		<div class="container py-12">
+            <div class="flex flex-col justify-center items-center mb-12">
+                <Header client:visible />
+
+                <Variants client:load variants={species.varieties} />
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-16">
+                <div class="order-2 lg:order-1 lg:pt-24">
+                    <Details client:load />
+                </div>
+
+                <div class="mx-auto md:col-span-2 lg:col-span-1 order-1 lg:order-2">
+                    <Gallery client:load />
+                </div>
+
+                <div class="order-3 lg:pt-24">
+                    <Stats client:load />
+                </div>
+            </div>
+
+            <Moves client:load />
+        </div>
+	</body>
+</html>
